@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+
+namespace Inheritance16
+{
+		public class Program
+		{
+			public static void Main()
+			{
+				var appointment = new Appointment() {
+					Name = "Bob",
+					StartDateTime = DateTime.Now.AddHours(1),
+					EndDateTime = DateTime.Now.AddHours(2), 
+					Price = 100D
+				};
+				
+				var book = new Book(){
+					Title = "How to Implement Interfaces",
+					Price = 50D
+				};
+				
+				
+				var items = new List<IPurchasable>();
+				items.Add(appointment);
+				items.Add(book);
+				
+				CompleteTransaction(items);
+				
+				
+				Console.ReadLine();
+				
+			}
+
+			static void CompleteTransaction(List<IPurchasable> items)
+			{
+				items.ForEach(p => p.Purchase());
+
+			}
+		}
+
+		public class Appointment : IPurchasable
+		{
+			public string Name {get; set;}
+			public DateTime StartDateTime {get; set;}
+			public DateTime EndDateTime {get; set;}
+			public double Price {get; set;}
+			
+			public void Purchase()
+			{
+				Console.WriteLine(String.Format("Appointment for {0}, from {1} - {2}", Name, StartDateTime, EndDateTime));
+			}
+			
+		}
+
+		public class Book : IPurchasable
+		{
+			public string Title {get; set;}	
+			public double Price {get; set;}
+			
+			public void Purchase()
+			{
+				Console.WriteLine(String.Format("{0}-{1}", Title, Price.ToString(("C0"))));
+			
+			}
+		}
+	
+	interface IPurchasable
+	{
+		double Price {get;set;}
+		
+		void Purchase();
+	}
+	
+}
